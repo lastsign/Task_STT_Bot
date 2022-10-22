@@ -9,7 +9,14 @@ services:
             - 8000:8000
             - 8001:8001
             - 8002:8002
-        command: sh -c "cd /workspace/triton_service/requests_jasper && sh scripts/install_dependencies.sh && sh scripts/deploy_jasper.sh && tritonserver --model-repository=models && tail -f /dev/null"
+        #command: sh -c "cd /workspace/triton_service/requests_jasper && sh scripts/install_dependencies.sh && sh scripts/deploy_jasper.sh && tritonserver --model-repository=models && tail -f /dev/null"
+        # entrypoint: ["cd /workspace/triton_service/requests_jasper", "sh scripts/install_dependencies.sh", "sh scripts/deploy_jasper.sh", "tritonserver --model-repository=models", "tail -f /dev/null"]
+        # entrypoint: cd /workspace/triton_service/requests_jasper
+        # entrypoint: sh scripts/install_dependencies.sh
+        # entrypoint: sh scripts/deploy_jasper.sh
+        # entrypoint: tritonserver --model-repository=models
+        # entrypoint: tail -f /dev/null
+        entrypoint: sh /workspace/triton_service/requests_jasper/scripts/run_server.sh
         deploy:
             resources:
                 reservations:
@@ -17,21 +24,20 @@ services:
                       - driver: nvidia
                         count: 0
                         capabilities: [gpu]
-        # entrypoint: ["cd /workspace/triton_service/requests_jasper", "sh scripts/install_dependencies.sh", "sh scripts/deploy_jasper.sh", "tritonserver --model-repository=models", "tail -f /dev/null"]
         volumes:
             - .:/workspace
 
 
-    botegram:
-        environment:
-            API_SERVICE_HOST: triton_service
-        image: botegram
-        networks:
-            - microservices
-        ports:
-            - 55051:55051
-        volumes:
-            - ./:/app
+    # botegram:
+    #     environment:
+    #         API_SERVICE_HOST: triton_service
+    #     image: botegram
+    #     networks:
+    #         - microservices
+    #     ports:
+    #         - 55051:55051
+    #     volumes:
+    #         - ./:/app
 
 volumes:
     requests_jasper:
