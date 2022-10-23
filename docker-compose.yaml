@@ -28,16 +28,16 @@ services:
             - .:/workspace
 
 
-    # botegram:
-    #     environment:
-    #         API_SERVICE_HOST: triton_service
-    #     image: botegram
-    #     networks:
-    #         - microservices
-    #     ports:
-    #         - 55051:55051
-    #     volumes:
-    #         - ./:/app
+     botegram:
+         environment:
+             API_SERVICE_HOST: triton_service
+         image: botegram
+         networks:
+             - microservices
+         ports:
+             - 55051:55051
+         volumes:
+             - ./:/app
 
 volumes:
     requests_jasper:
